@@ -46,7 +46,7 @@ def assignment_2(name, nfails, km, nyears, mean):
     confidence_interval_right = chi2.ppf(1 - alpha / 2, 2 * F) / (2 * T)
     confidence_interval_left = chi2.ppf(alpha / 2, 2 * F + 2) / (2 * T)
 
-    print("Confidence interval for {} = [{}, {}]".format(name, confidence_interval_left, confidence_interval_right))
+    print("{}% Confidence interval for {} = [{}, {}]".format((1 - alpha) * 100, name, confidence_interval_left, confidence_interval_right))
 
     # figure related code
     fig = plt.figure()
@@ -58,10 +58,17 @@ def assignment_2(name, nfails, km, nyears, mean):
     ax.boxplot([confidence_interval_left, mean, confidence_interval_right])
 
     ax.set_title('Failure frequency for {}'.format(name))
-    ax.set_xlabel('failure')
-    ax.set_ylabel('frequency')
 
-    fig.savefig('Assignment 2 - Failure frequency for {}.png'.format(name))
+    quantiles = np.quantile([confidence_interval_left, mean, confidence_interval_right], np.array([0.00, 0.25, 0.50, 0.75, 1.00]))
+    ax.hlines(quantiles, [0] * quantiles.size, [1] * quantiles.size,
+              color='b', ls=':', lw=0.5, zorder=0)
+    ax.set_xlim(0.5, 1.5)
+    ax.set_yticks(quantiles)
+
+    if name.find("5") == -1:
+        fig.savefig('Assignment 3 - Failure frequency for {}.png'.format(name))
+    else:
+        fig.savefig('Assignment 2 - Failure frequency for {}.png'.format(name))
     plt.show()
 
 def assignment_3():
@@ -102,8 +109,12 @@ def assignment_5():
     ax.boxplot(data)
 
     ax.set_title('Repair times for OHL')
-    ax.set_xlabel('repair')
-    ax.set_ylabel('time')
+
+    quantiles = np.quantile(data, np.array([0.00, 0.25, 0.50, 0.75, 1.00]))
+    ax.hlines(quantiles, [0] * quantiles.size, [1] * quantiles.size,
+              color='b', ls=':', lw=0.5, zorder=0)
+    ax.set_xlim(0.5, 1.5)
+    ax.set_yticks(quantiles)
 
     fig.savefig('Assignment 5.png')
     plt.show()
@@ -134,8 +145,6 @@ def assignment_6():
     ax.plot(x_axis, exponential(x_axis, *params), '--')
 
     ax.set_title('Fitted exponential curve')
-    ax.set_xlabel('repair time')
-    ax.set_ylabel('F(t)')
 
     fig.savefig('Assignment 6 - Fitted exponential curve.png')
     plt.show()
@@ -151,7 +160,7 @@ if __name__ == '__main__':
     print("Assignment 1:\n")
     mean_EHV = assignment_1('EHV', 25, 2310, 5)
     mean_HV = assignment_1('HV', 51, 3329, 5)
-    mean_EHV_HV = calculate_mean(25 + 51, 2310 + 3329, 5)
+    mean_EHV_HV = assignment_1('EHV+HV', 76, 5639, 5)
     if mean_EHV > mean_HV:
         print("EHV has a higher failure frequency than HV\n\n")
     else:
