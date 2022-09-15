@@ -59,3 +59,21 @@ if __name__ == '__main__':
     print("Assignment 2:\n")
     assignment_2('EHV', 25, 2310, 5, mean_EHV)
     assignment_2('HV', 51, 3329, 5, mean_HV)
+
+    # 3 years later
+    # 42 EHV OHL faliures
+    # 167 HV OHL faliures
+    # 2471 km of EHV OHL
+    # 4078 km of HV OHL
+
+    # Calculate the failure frequencies of EHV, HV, and EHV/HV OHLs again, together with their
+    # 95% confidence intervals. Also plot the results as a boxplot
+    print("\n\nAssignment 3:\n")
+
+    mean_EHV_3 = assignment_1('EHV', 42, 2471, 8)
+    mean_HV_3 = assignment_1('HV', 167, 4078, 8)
+
+    assignment_2('EHV', 42, 2471, 3, mean_EHV_3)
+    assignment_2('HV', 167, 4078, 3, mean_HV_3)
+
+
