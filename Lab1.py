@@ -69,7 +69,7 @@ def assignment_2(name, nfails, km, nyears, mean):
         fig.savefig('Assignment 3 - Failure frequency for {}.png'.format(name))
     else:
         fig.savefig('Assignment 2 - Failure frequency for {}.png'.format(name))
-    plt.show()
+    #plt.show()
 
 def assignment_3():
     # 3 years later
@@ -87,11 +87,13 @@ def assignment_3():
 
     assignment_2('EHV-8years', 42, 2471, 3, mean_EHV_3)
     assignment_2('HV-8years', 167, 4078, 3, mean_HV_3)
+    assignment_2('EHV-HV-8years', 42 + 167, 2471 + 4078, 3, mean_EHV_3 + mean_HV_3)
 def assignment_4():
     print("\n\nAssignment 4:\n");
     df = pd.read_csv("repair_times_OHL.csv")
     data = df["Repair Times"].values.tolist()
-    print(data)
+    data.sort()
+    print("Repair times: ", data)
     print("Average repair time = {}".format(sum(data) / len(data)))
     print("Minimum repair time = {}".format(min(data)))
     print("Maximum repair time = {}".format(max(data)))
@@ -116,8 +118,8 @@ def assignment_5():
     ax.set_xlim(0.5, 1.5)
     ax.set_yticks(quantiles)
 
-    fig.savefig('Assignment 5.png')
-    plt.show()
+    fig.savefig('Assignment 5 - Repair times.png')
+    #plt.show()
 
 def assignment_6():
     print("\n\nAssignment 6:\n")
@@ -147,7 +149,7 @@ def assignment_6():
     ax.set_title('Fitted exponential curve')
 
     fig.savefig('Assignment 6 - Fitted exponential curve.png')
-    plt.show()
+    #plt.show()
     print(params)
 
 def exponential_old(t, a, b, c):
