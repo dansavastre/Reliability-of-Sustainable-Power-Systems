@@ -4,7 +4,6 @@ from scipy.optimize import curve_fit
 from scipy.stats.distributions import chi2
 import numpy as np
 
-
 def calculate_mean(nfails, km, nyears):
     return nfails / (km * nyears)
 def assignment_1(name, nfails, km, nyears):
@@ -25,6 +24,7 @@ def assignment_1(name, nfails, km, nyears):
     # Mean Time Between Failures (MTBF)
     mtbf = mttf + mttr
     print("Mean Time Between Failures for {} = {}\n".format(name, mtbf))
+
     return f
 
 
@@ -46,7 +46,8 @@ def assignment_2(name, nfails, km, nyears, mean):
     confidence_interval_right = chi2.ppf(1 - alpha / 2, 2 * F) / (2 * T)
     confidence_interval_left = chi2.ppf(alpha / 2, 2 * F + 2) / (2 * T)
 
-    print("{}% Confidence interval for {} = [{}, {}]".format((1 - alpha) * 100, name, confidence_interval_left, confidence_interval_right))
+    print("{}% Confidence interval for {} = [{}, {}]"
+          .format((1 - alpha) * 100, name, confidence_interval_left, confidence_interval_right))
 
     # figure related code
     fig = plt.figure()
@@ -89,7 +90,7 @@ def assignment_3():
     assignment_2('HV-8years', 167, 4078, 3, mean_HV_3)
     assignment_2('EHV-HV-8years', 42 + 167, 2471 + 4078, 3, mean_EHV_3 + mean_HV_3)
 def assignment_4():
-    print("\n\nAssignment 4:\n");
+    print("\n\nAssignment 4:\n")
     df = pd.read_csv("repair_times_OHL.csv")
     data = df["Repair Times"].values.tolist()
     data.sort()
@@ -99,7 +100,7 @@ def assignment_4():
     print("Maximum repair time = {}".format(max(data)))
 
 def assignment_5():
-    #print("\n\nAssignment 5:\n");
+    print("\n\nAssignment 5:\n");
     df = pd.read_csv("repair_times_OHL.csv")
     data = df["Repair Times"].values.tolist()
 
@@ -117,9 +118,11 @@ def assignment_5():
               color='b', ls=':', lw=0.5, zorder=0)
     ax.set_xlim(0.5, 1.5)
     ax.set_yticks(quantiles)
+    # ax.set_yticklabels(quantiles, rotation=30, fontsize=8)
 
     fig.savefig('Assignment 5 - Repair times.png')
     #plt.show()
+
 
 def assignment_6():
     print("\n\nAssignment 6:\n")
@@ -130,14 +133,11 @@ def assignment_6():
     # c = independent term
     df = pd.read_csv("repair_times_OHL.csv")
     data = df["Repair Times"].values.tolist()
-    # data.reverse()
-    # sort the data
     data.sort()
     Ft = np.arange(0, 1.00001, 1/(len(data) - 1))
     Ft = np.arange(1.0/(len(data)+1), 1.00001-1.0/(len(data)+1), 1/(len(data) + 1))
     x_axis = np.arange(0, 70 + 0.00001, 0.1)
     params, covariance = curve_fit(exponential, data, Ft)
-
     # figure related code
     fig = plt.figure()
     fig.suptitle('Assignment 6', fontsize=14, fontweight='bold')
@@ -152,11 +152,14 @@ def assignment_6():
     #plt.show()
     print(params)
 
+
 def exponential_old(t, a, b, c):
     return a * np.exp(-b * np.asarray(t)) + c
 
+
 def exponential(b, t):
-    return -np.exp(-b * t) + 1
+    return -np.exp(-b * np.asarray(t)) + 1
+
 
 if __name__ == '__main__':
     print("Assignment 1:\n")
