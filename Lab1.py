@@ -149,7 +149,7 @@ def assignment_6():
     ax.set_title('Fitted exponential curve')
 
     fig.savefig('Assignment 6 - Fitted exponential curve.png')
-    #plt.show()
+    # plt.show()
     print(params)
 
 
